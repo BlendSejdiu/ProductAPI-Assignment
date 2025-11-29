@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ProductAPI.DataAccess/ProductAPI.DataAccess.csproj" />
+  <Project Path="ProductAPI.Models/ProductAPI.Models.csproj" />
+  <Project Path="ProductAPI/ProductAPI.csproj" />
+</Solution>
