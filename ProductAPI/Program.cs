@@ -15,9 +15,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
-
 builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -38,9 +35,12 @@ builder.Services.AddHttpLogging(options =>
     options.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All;
 });
 
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -48,6 +48,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+    dbInitializer.Initialize();
+}
 
 app.UseHttpsRedirection();
 app.UseHttpLogging();
