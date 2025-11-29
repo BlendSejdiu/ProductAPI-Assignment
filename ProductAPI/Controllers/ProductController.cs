@@ -23,6 +23,15 @@ public class ProductController : ControllerBase
     #region Endpoints
 
     #region Create Product
+    /// <summary>
+    /// Creates a new product. Requires authorization.
+    /// </summary>
+    /// <param name="product">The product details to create.</param>
+    /// <returns>The created product or a 400 Bad Request if creation fails.</returns>
+    /// <response code="200">Returns the created product.</response>
+    /// <response code="400">If the product data is invalid.</response>
+    /// <response code="401">If the user is not authorized.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> CreateProduct(ProductDTO product)
@@ -32,9 +41,11 @@ public class ProductController : ControllerBase
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var claims = new ClaimsDTO();
-            claims.UserId = GetUserIdFromClaims();
-            claims.UserName = GetUsernameFromClaims();
+            var claims = new ClaimsDTO 
+            {
+                UserId = GetUserIdFromClaims(),
+                UserName = GetUsernameFromClaims()
+            };    
 
             var result = await _productService.CreateProductAsync(product, claims);
             if (!result.Item1)
@@ -53,6 +64,15 @@ public class ProductController : ControllerBase
     #endregion
 
     #region Get single Product
+    /// <summary>
+    /// Retrieves a single product by its ID. Requires authorization.
+    /// </summary>
+    /// <param name="Id">The ID of the product to retrieve.</param>
+    /// <returns>The requested product, or 404 if not found.</returns>
+    /// <response code="200">Returns the product.</response>
+    /// <response code="404">If the product does not exist.</response>
+    /// <response code="401">If the user is not authorized.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpGet("{Id}")]
     [Authorize]
     public async Task<IActionResult> GetSingleProduct(int Id)
@@ -74,7 +94,21 @@ public class ProductController : ControllerBase
     #endregion
 
     #region Get Products with Pagination and other filters
-    [HttpGet()]
+    /// <summary>
+    /// Retrieves products with optional pagination, search, category, and price filters. Requires authorization.
+    /// </summary>
+    /// <param name="pageNumber">The page number for pagination.</param>
+    /// <param name="pageSize">The number of items per page.</param>
+    /// <param name="search">Optional search term for product names.</param>
+    /// <param name="category">Optional category filter.</param>
+    /// <param name="minPrice">Optional minimum price filter.</param>
+    /// <param name="maxPrice">Optional maximum price filter.</param>
+    /// <returns>A list of products matching the filters, or 404 if none found.</returns>
+    /// <response code="200">Returns a list of products.</response>
+    /// <response code="404">If no products match the filters.</response>
+    /// <response code="401">If the user is not authorized.</response>
+    /// <response code="500">If an internal server error occurs.</response>
+    [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetProducts([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string? search = null, 
                                                  [FromQuery]string? category = null, [FromQuery] decimal? minPrice = null, [FromQuery] decimal? maxPrice = null)
@@ -99,14 +133,26 @@ public class ProductController : ControllerBase
     #endregion
 
     #region Update Product
+    /// <summary>
+    /// Updates an existing product by its ID. Requires authorization.
+    /// </summary>
+    /// <param name="Id">The ID of the product to update.</param>
+    /// <param name="product">The updated product data.</param>
+    /// <returns>No content if successful, or 404 if product not found.</returns>
+    /// <response code="204">Product updated successfully.</response>
+    /// <response code="404">If the product does not exist.</response>
+    /// <response code="401">If the user is not authorized.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpPut("{Id}")]
     [Authorize]
     public async Task<IActionResult> UpdateProduct(int Id, ProductDTO product)
     {
         try
         {
-            var claims = new ClaimsDTO();
-            claims.UserName = GetUsernameFromClaims();
+            var claims = new ClaimsDTO
+            {
+                UserName = GetUsernameFromClaims()
+            };
 
             var result = await _productService.UpdateProductAsync(Id, product, claims);
             if (!result.Item1)
@@ -125,8 +171,17 @@ public class ProductController : ControllerBase
     #endregion
 
     #region Delete Product
-    [HttpDelete("{ID}")]
-    [Authorize(Roles = "Admin")]
+    /// <summary>
+    /// Deletes a product by its ID. Requires authorization.
+    /// </summary>
+    /// <param name="Id">The ID of the product to delete.</param>
+    /// <returns>No content if deleted successfully, or 404 if product not found.</returns>
+    /// <response code="204">Product deleted successfully.</response>
+    /// <response code="404">If the product does not exist.</response>
+    /// <response code="401">If the user is not authorized.</response>
+    /// <response code="500">If an internal server error occurs.</response>
+    [HttpDelete("{Id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteProduct(int Id)
     {
         try

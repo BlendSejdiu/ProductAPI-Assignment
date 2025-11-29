@@ -22,6 +22,14 @@ public class AuthController : ControllerBase
     #region Endpoints
 
     #region Register
+    /// <summary>
+    /// Registers a new user with the provided details.
+    /// </summary>
+    /// <param name="request">The user registration information.</param>
+    /// <returns>The newly created user, or a 400 Bad Request if registration fails.</returns>
+    /// <response code="200">Returns the created user.</response>
+    /// <response code="400">If registration fails.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpPost("Register")]
     public async Task<ActionResult<User>> Register(UserDTO request)
     {
@@ -44,6 +52,14 @@ public class AuthController : ControllerBase
     #endregion
 
     #region Login
+    /// <summary>
+    /// Authenticates a user and returns a JWT token pair.
+    /// </summary>
+    /// <param name="request">The user login credentials.</param>
+    /// <returns>A token response containing access and refresh tokens, or a 400 Bad Request if login fails.</returns>
+    /// <response code="200">Returns a token response with access and refresh tokens.</response>
+    /// <response code="400">If login credentials are invalid.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpPost("Login")]
     public async Task<ActionResult<TokenResponseDTO>> Login(UserDTO request)
     {
@@ -66,6 +82,14 @@ public class AuthController : ControllerBase
     #endregion
 
     #region Refresh Token
+    /// <summary>
+    /// Refreshes an access token using a valid refresh token.
+    /// </summary>
+    /// <param name="request">The refresh token request containing user ID and refresh token.</param>
+    /// <returns>A new token response with updated access and refresh tokens, or 401 Unauthorized if the token is invalid.</returns>
+    /// <response code="200">Returns a new token response.</response>
+    /// <response code="401">If the refresh token is invalid.</response>
+    /// <response code="500">If an internal server error occurs.</response>
     [HttpPost("refresh-token")]
     public async Task<ActionResult<TokenResponseDTO>> RefreshToken(RefreshTokenRequestDTO request)
     {
