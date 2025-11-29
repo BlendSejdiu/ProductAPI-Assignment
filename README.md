@@ -14,15 +14,42 @@ And make sure you have the corresponding .NET 8 SDK so that you can run the proj
 
 Endpoints for Authentication are:
 
-/api/auth/Register - POST
-/api/auth/Login - POST
-/api/auth/RefreshToken - POST
+Register user
+```
+POST /api/auth/Register
+```
 
-Endpoints for Product are:
+Logs in user
+```
+POST /api/auth/Login
+```
 
-/api/product - POST
-/api/products/{id} - GET single product
-/api/products - GET with query params
+Create refresh token
+```
+POST /api/auth/refresh-token
+```
+
+## Product Endpoints
+
+All product endpoints require **JWT authentication**. Include the token in the header:
+
+```
+Authorization: Bearer {accessToken}
+```
+
+Create Product
+```
+POST /api/products
+```
+Get single Product
+```
+GET /api/products/{id}
+```
+
+Get Products by parameters
+```
+GET /api/products
+```
 **Query Parameters:**
 
 - `pageNumber` (int, required) – Page number.
@@ -32,5 +59,11 @@ Endpoints for Product are:
 - `minPrice` (decimal, optional) – Minimum price filter.
 - `maxPrice` (decimal, optional) – Maximum price filter.
 
-/api/products/{id} - PUT
-/api/products/{id} - DELETE
+Update Product
+```
+PUT /api/products/{id}
+```
+Delete Product
+```
+DELETE /api/products/{id}
+```
