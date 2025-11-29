@@ -9,8 +9,11 @@ https://localhost:724/api
 ```
 
 Please change the connection string in the **appsettings.json** to the corresponding server from your machine.
+
 There is no need to add any migrations just run the application since the DbInitializer will handle any migrations and create the database.
-And make sure you have the corresponding .NET 8 SDK so that you can run the project on any IDE.
+And make sure you have the corresponding .NET 8 SDK and SQL Server Management Studio so that you can run the project on any IDE.
+
+For better API Endpoint testing i suggest using Postman since every API call will need bearer token to access.
 
 Endpoints for Authentication are:
 
