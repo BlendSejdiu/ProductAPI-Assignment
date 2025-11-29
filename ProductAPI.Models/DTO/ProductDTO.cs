@@ -9,6 +9,7 @@ public class ProductDTO
     public decimal Price { get; set; }
 
     public int StockQuantity { get; set; }
+    public bool InStock { get; set; }
 
     public string? CreatedBy { get; set; } = string.Empty;
 
