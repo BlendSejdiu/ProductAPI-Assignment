@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\ProductAPI.DataAccess\ProductAPI.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
