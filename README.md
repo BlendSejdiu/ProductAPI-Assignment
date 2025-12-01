@@ -20,16 +20,29 @@ Endpoints for Authentication are:
 Register user
 ```
 POST /api/auth/Register
+{
+    Username = "john_doe",
+    Email = "john@example.com",
+    Password = "securePassword123"
+}
 ```
 
 Logs in user
 ```
 POST /api/auth/Login
+{
+    Email = "john@example.com",
+    Password = "securePassword123"
+}
 ```
 
 Create refresh token
 ```
 POST /api/auth/refresh-token
+{
+  "userId": "string (Guid)",
+  "refreshToken": "string"
+}
 ```
 
 ## Product Endpoints
