@@ -56,6 +56,12 @@ Authorization: Bearer {accessToken}
 Create Product
 ```
 POST /api/products
+{
+  "name": "Example Product",
+  "category": "Electronics",
+  "price": 129.99,
+  "stockQuantity": 50
+}
 ```
 Get single Product
 ```
