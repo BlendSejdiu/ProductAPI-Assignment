@@ -1,4 +1,4 @@
-# ProductAPISolution
+# Product API
 
 This API provides user authentication, including registration, login, token refresh and product CRUD operations on products with filtering and pagination support. It uses **JWT authentication** for secure endpoints.
 
